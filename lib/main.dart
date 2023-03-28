@@ -46,83 +46,116 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _incrementCounter() async {
 
-    // ME7TAGA LE3BA SHWAYA
-    /// document.querySelectorAll(".imgTagWrapper > img")
-    ///
-    /// #bylineInfo
-    /// brand ^
-    /// document.querySelector(".a-icon-alt").innerHTML
-    /// stars ^
-    /// acrCustomerReviewText
-    /// ratings ^
-    /// #poExpander > div.a-expander-content.a-expander-partial-collapse-content.a-expander-content-expanded > div > table > tbody
-    /// tbody ^
-    /// #feature-bullets
-    ///
-    /// #detailBullets_feature_div
-    /// .askTeaserQuestions
-    /// #cm-cr-dp-review-list
-    /// reviews^
-    /// document.querySelector("#productDescription").innerText
-    /// document.querySelector("#important-information").innerText
-    /// 'Important information\nVisible screen diagonal\n\n0" / 0 cm'
-    /// badge document.querySelector(".icon-farm-wrapper")
+    var browser = await puppeteer.launch(
+      headless: false,
+    );
 
-     // Download the Chromium binaries, launch it and connect to the "DevTools"
-  var browser = await puppeteer.launch(
-    headless: false,
+    var myPage = await browser.newPage();
 
-  );
+    await myPage.goto(
+      'https://www.amazon.eg/-/en/Xiaomi-Earphone-Built-Microphone-Silicone/dp/B01N0Z1YKE',
+      timeout: const Duration(seconds: 20),
+      // wait: Until.domContentLoaded,
+      // referrer:
+    );
 
-  // Open a new tab
-  var myPage = await browser.newPage();
+    await Future.delayed(const Duration(seconds: 2));
 
-  // Go to a page and wait to be fully loaded
-  await myPage.goto('https://www.amazon.eg/-/en/Xiaomi-Earphone-Built-Microphone-Silicone/dp/B01N0Z1YKE',
-    timeout: const Duration(seconds: 20),
-    // wait: Until.domContentLoaded,
-    // referrer:
-  );
+    // myPage.hover(selector)
 
-  // #productTitle
-  // #landingImage
-  // .a-offscreen
-  final dynamic productTitle = await myPage.evaluate('''
-document.querySelector("#productTitle").innerText
-''',
-    // args:
-  );
-  print('productTitle : $productTitle');
+    final imageSelectors = await myPage.evaluate(
+      'document.querySelectorAll("#altImages > ul > li").length + 1',
+      // args:,
+    );
 
-  final dynamic productLandingImage = await myPage.evaluate('''
-document.querySelector("#landingImage").src
-''',
-    // args:
-  );
-  print('productLandingImage : $productLandingImage');
-  // await myPage.waitForSelector('flt-glass-pane',
-  //   // timeout: ,
-  //   // hidden: ,
-  //   visible: true,
-  // );
+    print('thing is : $imageSelectors');
 
-  // Do something... See other examples
+    for (int i = 1; i < imageSelectors; i++){
+      try {
+        /// THIS HOVERS
+        await myPage.hover('#altImages > ul > li:nth-child($i)');
+      }
 
-  await Future.delayed(const Duration(seconds: 1),(){});
 
-  final Uint8List _bytes = await myPage.screenshot();
-  print('_bytes : ${_bytes.length} bytes');
-  setState(() {
-    bytes = _bytes;
-  });
-  // await myPage.pdf();
-  // await myPage.evaluate<String>('() => document.title');
+      catch (e){
+        continue;
+      }
 
-  // Gracefully close the browser's process
-  // await browser.close();
+    }
 
+    final output = await myPage.evaluate(
+        '''
+
+        '''
+    );
 
   }
+
+
+//   Future<void> old() async {
+//
+//     // ME7TAGA LE3BA SHWAYA
+//     /// document.querySelectorAll(".imgTagWrapper > img")
+//     ///
+//     /// #bylineInfo
+//     /// brand ^
+//     /// document.querySelector(".a-icon-alt").innerHTML
+//     /// stars ^
+//     /// acrCustomerReviewText
+//     /// ratings ^
+//     /// #poExpander > div.a-expander-content.a-expander-partial-collapse-content.a-expander-content-expanded > div > table > tbody
+//     /// tbody ^
+//     /// #feature-bullets
+//     ///
+//     /// #detailBullets_feature_div
+//     /// .askTeaserQuestions
+//     /// #cm-cr-dp-review-list
+//     /// reviews^
+//     /// document.querySelector("#productDescription").innerText
+//     /// document.querySelector("#important-information").innerText
+//     /// 'Important information\nVisible screen diagonal\n\n0" / 0 cm'
+//     /// badge document.querySelector(".icon-farm-wrapper")
+//
+//
+//   // #productTitle
+//   // #landingImage
+//   // .a-offscreen
+//   final dynamic productTitle = await myPage.evaluate('''
+// document.querySelector("#productTitle").innerText
+// ''',
+//     // args:
+//   );
+//   print('productTitle : $productTitle');
+//
+//   final dynamic productLandingImage = await myPage.evaluate('''
+// document.querySelector("#landingImage").src
+// ''',
+//     // args:
+//   );
+//   print('productLandingImage : $productLandingImage');
+//   // await myPage.waitForSelector('flt-glass-pane',
+//   //   // timeout: ,
+//   //   // hidden: ,
+//   //   visible: true,
+//   // );
+//
+//   // Do something... See other examples
+//
+//   await Future.delayed(const Duration(seconds: 1),(){});
+//
+//   final Uint8List _bytes = await myPage.screenshot();
+//   print('_bytes : ${_bytes.length} bytes');
+//   setState(() {
+//     bytes = _bytes;
+//   });
+//   // await myPage.pdf();
+//   // await myPage.evaluate<String>('() => document.title');
+//
+//   // Gracefully close the browser's process
+//   // await browser.close();
+//
+//
+//   }
 
   Uint8List? bytes;
 

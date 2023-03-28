@@ -38,7 +38,6 @@ class AmazonProduct {
   final String importantInfo;
   final Map<String, dynamic> badges;
 
-
 }
 
 class QuestionModel {
@@ -52,7 +51,6 @@ class QuestionModel {
   final String question;
   final String answer;
   final DateTime timeStamp;
-
 
 }
 
@@ -74,5 +72,11 @@ class ReviewModel {
   final DateTime timeStamp;
   final double stars;
 
+
+  /*
+
+  'مش زوايا تصوير . الصور فعلا مصورة نوعين نوع مبطط و نوع مدور\n\nBy The truth on March 17, 2023\n See more answers (1)
+
+   */
 
 }
